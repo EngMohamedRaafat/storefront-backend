@@ -1,8 +1,9 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 
 import { errorHandler, pageNotFound } from './middlewares';
+import routes from './routes';
 
 const app: express.Application = express();
 const PORT = 3000;
@@ -11,9 +12,7 @@ app.use(bodyParser.json());
 // logging middleware
 app.use(morgan('dev'));
 
-app.get('/', function (req: Request, res: Response) {
-	res.send('Hello World!');
-});
+app.use('/api', routes);
 
 // page not found middleware
 app.use(pageNotFound);
