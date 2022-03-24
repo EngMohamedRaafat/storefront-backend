@@ -41,4 +41,17 @@ class PageNotFound extends HttpException {
 	}
 }
 
-export { HttpException, ValidationError, PageNotFound };
+class AuthorizationError extends HttpException {
+	/**
+	 * @description Represents unauthorized error
+	 * @constructor
+	 * @param message - will be mapped to the default message of 401 error if empty
+	 */
+	constructor(message = '') {
+		const httpStatusCode = 401;
+		message ||= (<unknown>STATUS_CODES[httpStatusCode]) as string;
+		super(httpStatusCode, message);
+	}
+}
+
+export { HttpException, ValidationError, PageNotFound, AuthorizationError };
