@@ -12,7 +12,7 @@ const errorHandler = (
 	res: Response,
 	next: NextFunction
 ): void => {
-	const status = err instanceof HttpException ? err.status : 500;
+	const status = (err as HttpException).status || 500;
 	const message = err.message || 'Server Error';
 	res.status(status).json({
 		error: { status, message }
