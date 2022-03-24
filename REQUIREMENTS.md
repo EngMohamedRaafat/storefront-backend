@@ -8,21 +8,31 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Products
 
-- Index - `/products` [GET]
-- Show - `/products/:id` [GET]
-- Create **[token required]** `/products` [POST]
+- Index - `/api/products` [GET]
+- Show - `/api/products/:id` [GET]
+- Create **[token required]** - `/api/products` [POST]
+- Update **[token required]** - `/api/products/:id` [PUT]
+- Delete **[token required]** - `/api/products/:id` [DELETE]
   <!-- - [OPTIONAL] Top 5 most popular products -->
   <!-- - [OPTIONAL] Products by category (args: product category) -->
 
 #### Users
 
-- Index **[token required]** - `/users` [GET]
-- Show **[token required]** - `/users/:id` [GET]
-- Create **[token required]** - `/users` [POST]
+- Index **[token required]** - `/api/users` [GET]
+- Show **[token required]** - `/api/users/:id` [GET]
+- Create **[token required]** - `/api/users` [POST]
+- Update **[token required]** - `/api/users/:id` [PUT]
+- Delete **[token required]** - `/api/users/:id` [DELETE]
+- Authenticate - `/api/users/authenticate` [POST]
 
 #### Orders
 
-- Current Order by user (args: user id)**[token required]** - `/orders/:user_id` [GET]
+- Index - **[token required]** - `/api/orders` [GET]
+- Show - **[token required]** - `/api/orders/:id` [GET]
+- Create **[token required]** - `/api/orders` [POST]
+- Update **[token required]** - `/api/orders/:id` [PUT]
+- Delete **[token required]** - `/api/orders/:id` [DELETE]
+- Current Order by user (args: user id) **[token required]** - `/api/orders/users/:user_id` [GET]
 <!-- - [OPTIONAL] Completed Orders by user (args: user id)[token required] -->
 
 ## Data Shapes
@@ -48,6 +58,7 @@ CREATE TABLE products (
 #### User
 
 - id
+- username
 - firstName
 - lastName
 - password
@@ -57,6 +68,7 @@ CREATE TABLE products (
 ```sql
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
+    username VARCHAR(50),
     firstname VARCHAR(50),
     lastname VARCHAR(50),
     password VARCHAR(255)
