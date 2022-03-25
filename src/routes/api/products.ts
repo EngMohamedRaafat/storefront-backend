@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { create, destroy, index, show, update } from '../../handlers/products';
-import verifyAuthToken from '../../middlewares/verifyAuthToken';
+import { verifyAuthToken } from '../../middlewares';
 
 const productRoutes = Router();
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import verifyAuthToken from '../middlewares/verifyAuthToken';
+import { verifyAuthToken } from '../middlewares';
 import orderRoutes from './api/orders';
 import productRoutes from './api/products';
 import userRoutes from './api/users';

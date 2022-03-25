@@ -7,7 +7,7 @@ import {
 	update,
 	authenticate
 } from '../../handlers/users';
-import verifyAuthToken from '../../middlewares/verifyAuthToken';
+import { verifyAuthToken } from '../../middlewares';
 
 const userRoutes = Router();
 
