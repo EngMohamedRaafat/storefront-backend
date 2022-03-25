@@ -130,7 +130,7 @@ describe('Order Model Test', () => {
 			});
 		});
 
-		it('update method should return a order with updated properties', async () => {
+		it('update method should return an order with updated properties', async () => {
 			const result = await orderStore.update({
 				...order,
 				status: 'complete',

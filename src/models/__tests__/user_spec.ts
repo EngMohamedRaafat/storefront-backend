@@ -17,7 +17,7 @@ describe('User Model Test', () => {
 			expect(store.create).toBeDefined();
 		});
 
-		it('should have a update method', () => {
+		it('should have an update method', () => {
 			expect(store.update).toBeDefined();
 		});
 
@@ -25,7 +25,7 @@ describe('User Model Test', () => {
 			expect(store.delete).toBeDefined();
 		});
 
-		it('should have a authenticate method', () => {
+		it('should have an authenticate method', () => {
 			expect(store.authenticate).toBeDefined();
 		});
 	});
