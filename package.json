@@ -11,7 +11,8 @@
 		"watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
 		"db-up": "db-migrate up",
 		"db-down": "db-migrate down",
-		"test": "db-migrate --env test up && ENV=test jasmine-ts && db-migrate --env test down",
+		"db-reset": "db-migrate reset",
+		"test": "db-migrate --env test up && npx tsc && NODE_ENV=test jasmine",
 		"tsc": "tsc",
 		"dc-up": "docker-compose up -d",
 		"dc-down": "docker-compose down"
