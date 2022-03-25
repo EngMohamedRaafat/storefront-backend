@@ -4,13 +4,17 @@ import morgan from 'morgan';
 
 import { errorHandler, pageNotFound } from './middlewares';
 import routes from './routes';
+import config from './config';
 
 const app: express.Application = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
-// logging middleware
-app.use(morgan('dev'));
+
+if (config.ENV !== 'test') {
+	// logging middleware
+	app.use(morgan('dev'));
+}
 
 app.use('/api', routes);
 
