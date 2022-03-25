@@ -70,7 +70,7 @@ export class OrderStore {
 	async delete(id: string): Promise<Order> {
 		const conn = await db.connect();
 		try {
-			const sql = 'DELETE FROM orders WHERE id=($1)';
+			const sql = 'DELETE FROM orders WHERE id=($1) RETURNING *';
 			const result = await conn.query(sql, [id]);
 			const order = result.rows[0];
 			return order;
@@ -85,35 +85,27 @@ export class OrderStore {
 		quantity: number,
 		orderId: string,
 		productId: string
-	): Promise<Order> {
-		// get order to see if it is open
-		try {
-			const ordersql = 'SELECT * FROM orders WHERE id=($1)';
-			const conn = await db.connect();
-			const result = await conn.query(ordersql, [orderId]);
-			const order = result.rows[0];
-			if (order.status !== 'open') {
-				throw new Error(
-					`Could not add order ${productId} to order ${orderId} because order status is ${order.status}`
-				);
-			}
-			conn.release();
-		} catch (err) {
-			throw new Error(`${err}`);
+	): Promise<{
+		id?: number;
+		quantity: number;
+		order_id: string;
+		product_id: string;
+	}> {
+		// get order to see if it is active
+		const order = await this.show(orderId);
+		if (order.status !== 'active') {
+			throw new Error(
+				`Could not add order ${productId} to order ${orderId} because order status is ${order.status}`
+			);
 		}
 
 		try {
 			const sql =
-				'INSERT INTO orders (quantity, order_id, product_id) VALUES($1, $2, $3) RETURNING *';
+				'INSERT INTO order_products (quantity, order_id, product_id) VALUES($1, $2, $3) RETURNING *';
 			const conn = await db.connect();
-
 			const result = await conn.query(sql, [quantity, orderId, productId]);
-
-			const order = result.rows[0];
-
 			conn.release();
-
-			return order;
+			return result.rows[0];
 		} catch (err) {
 			throw new Error(
 				`Could not add order ${productId} to order ${orderId}: ${err}`
@@ -121,14 +113,24 @@ export class OrderStore {
 		}
 	}
 
-	async currentOrderByUserId(userId: string): Promise<Order> {
+	async currentOrderByUserId(userId: string): Promise<
+		{
+			id?: number;
+			product_id: string;
+			quantity: number;
+			user_id: string;
+			status: string;
+		}[]
+	> {
 		const conn = await db.connect();
 		try {
-			const ordersql =
-				'SELECT * FROM orders WHERE user_id=($1) AND status=($2)';
+			const ordersql = `
+				SELECT o.id, op.product_id, op.quantity, o.user_id, o.status
+				FROM orders AS o
+					INNER JOIN order_products AS op ON o.id = op.order_id
+				WHERE user_id=($1) AND status=($2)`;
 			const result = await conn.query(ordersql, [userId, 'active']);
-			const order = result.rows[0];
-			return order;
+			return result.rows;
 		} catch (err) {
 			throw new Error(`${err}`);
 		} finally {
