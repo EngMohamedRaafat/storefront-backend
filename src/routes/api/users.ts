@@ -13,7 +13,7 @@ const userRoutes = Router();
 
 userRoutes.get('/', verifyAuthToken, index);
 userRoutes.get('/:id', verifyAuthToken, show);
-userRoutes.post('/', verifyAuthToken, create);
+userRoutes.post('/', create);
 userRoutes.put('/:id', verifyAuthToken, update);
 userRoutes.delete('/:id', verifyAuthToken, destroy);
 userRoutes.post('/authenticate', authenticate);
