@@ -65,15 +65,10 @@ describe('Users API Endpoints Test', () => {
 	});
 
 	describe('Create a new user', () => {
-		it('should fail without user token provided', async () => {
-			const res = await request.post('/api/users').send(user);
-			expect(res.status).toBe(401);
-		});
 		it('should pass with user token provided', async () => {
 			const res = await request
 				.post('/api/users')
 				.set('Content-type', 'application/json')
-				.set('Authorization', `Bearer ${userToken}`)
 				.send(user);
 			expect(res.status).toBe(200);
 			expect(res.body.token).toBeDefined();
